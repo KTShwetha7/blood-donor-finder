@@ -1,0 +1,21 @@
+{
+  "name": "user-registration-app",
+  "version": "1.0.0",
+  "description": "Blood donation registration backend and frontend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "registration",
+    "donation",
+    "api"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2",
+    "sqlite3": "^6.0.1"
+  }
+}
