@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pulse &mdash; Blood Donor Registry &amp; Profile Management</title>
+  <meta name="description" content="Register as a lifesaver with the Pulse Community Blood Registry. Easily manage your donor profile, update donation availability, and connect with patients in need.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-wrapper">
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2C7 8 4 12 4 15.5a8 8 0 0 0 16 0C20 12 17 8 12 2z" fill="#E63946" stroke="none"/>
+          <path d="M12 2C7 8 4 12 4 15.5a8 8 0 0 0 16 0C20 12 17 8 12 2z"/>
+          <path d="M12 9v6m-3-3h6" stroke="#fff" stroke-width="2.2"/>
+        </svg>
+      </div>
+      <span class="brand-title">Pulse<span class="brand-dot">.</span></span>
+      <span class="brand-tag">Blood Registry</span>
+    </div>
+    <div class="nav-actions">
+      <div id="session-badge" class="session-badge">
+        <span class="pulse-dot"></span>
+        <span id="session-status-text">Guest Session</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-icon">🩸</span>
+        <span>Community Lifeline Network</span>
+      </div>
+      <h1 class="hero-heading">Every Drop Counts.<br><span class="highlight-text">Your Profile Saves Lives.</span></h1>
+      <p class="hero-subtitle">
+        Join our certified community blood registry. Complete your profile once to get matched with emergency requests in your area when every second counts.
+      </p>
+
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-num">8</span>
+          <span class="stat-label">Blood Groups</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-card">
+          <span class="stat-num">&ge; 50 kg</span>
+          <span class="stat-label">Donor Standard</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-card">
+          <span class="stat-num">90 Days</span>
+          <span class="stat-label">Safe Interval</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card-side">
+      <div class="blood-matrix-card">
+        <div class="matrix-header">
+          <h3>Blood Compatibility Quick Guide</h3>
+          <span class="matrix-badge">Universal</span>
+        </div>
+        <div class="matrix-grid">
+          <div class="matrix-item universal-donor">
+            <span class="type-tag">O-</span>
+            <span class="type-role">Universal Donor</span>
+            <p>Can give red blood cells to anyone</p>
+          </div>
+          <div class="matrix-item universal-recipient">
+            <span class="type-tag">AB+</span>
+            <span class="type-role">Universal Recipient</span>
+            <p>Can receive red blood cells from all types</p>
+          </div>
+        </div>
+        <div class="all-types-row">
+          <span class="type-pill">A+</span>
+          <span class="type-pill">A-</span>
+          <span class="type-pill">B+</span>
+          <span class="type-pill">B-</span>
+          <span class="type-pill">AB-</span>
+          <span class="type-pill">O+</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <main class="main-layout">
+
+    <!-- Active Profile Card (Shown when donor is registered) -->
+    <div id="active-profile-banner" class="active-profile-banner hidden" aria-live="polite">
+      <div class="profile-card-inner">
+        <div class="profile-header-meta">
+          <div class="profile-blood-avatar" id="view-bloodGroup">O+</div>
+          <div class="profile-main-meta">
+            <div class="profile-name-row">
+              <h3 id="view-name">Donor Name</h3>
+              <span id="view-availability-tag" class="status-tag status-available">Available</span>
+            </div>
+            <p class="profile-location-text" id="view-location">City, State</p>
+          </div>
+        </div>
+
+        <div class="profile-quick-actions">
+          <div class="quick-toggle-group">
+            <label class="switch" for="quick-avail-switch">
+              <input type="checkbox" id="quick-avail-switch">
+              <span class="slider round"></span>
+            </label>
+            <span class="toggle-text">Live Availability</span>
+          </div>
+          <button type="button" id="btn-edit-profile" class="btn-secondary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Edit Profile
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 1: Donor Profile Form (SCRUM-14) -->
+    <section class="panel form-panel" id="donor-section">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <span class="panel-step-tag">SCRUM-14</span>
+          <h2 id="form-heading">Donor Profile Form</h2>
+          <p id="form-subheading">Fill in your profile details to register as an emergency blood donor.</p>
+        </div>
+        <div id="form-mode-indicator" class="form-mode-badge hidden">Editing Existing Profile</div>
+      </div>
+
+      <form id="donor-form" novalidate autocomplete="on">
+        
+        <!-- Section: Personal & Medical Details -->
+        <div class="form-section-title">
+          <span class="section-icon">👤</span>
+          <h3>Personal &amp; Biological Information</h3>
+        </div>
+
+        <div class="field-row">
+          <!-- Full Name -->
+          <div class="field field-flex-2">
+            <label for="name">Full Name <span class="req">*</span></label>
+            <input type="text" id="name" name="name" placeholder="e.g. Tarun Sharma" autocomplete="name" required>
+            <span class="field-error" data-error-for="name"></span>
+          </div>
+
+          <!-- Blood Group -->
+          <div class="field field-flex-1">
+            <label for="bloodGroup">Blood Group <span class="req">*</span></label>
+            <div class="select-wrapper">
+              <select id="bloodGroup" name="bloodGroup" required>
+                <option value="" disabled selected>Select Group</option>
+                <option value="A+">A+ (A Positive)</option>
+                <option value="A-">A- (A Negative)</option>
+                <option value="B+">B+ (B Positive)</option>
+                <option value="B-">B- (B Negative)</option>
+                <option value="AB+">AB+ (AB Positive)</option>
+                <option value="AB-">AB- (AB Negative)</option>
+                <option value="O+">O+ (O Positive)</option>
+                <option value="O-">O- (O Negative)</option>
+              </select>
+            </div>
+            <span class="field-error" data-error-for="bloodGroup"></span>
+          </div>
+
+          <!-- Weight -->
+          <div class="field field-flex-1">
+            <label for="weightKg">Weight (kg) <span class="req">*</span></label>
+            <input type="number" id="weightKg" name="weightKg" min="50" max="300" step="0.5" placeholder="&ge; 50 kg" required>
+            <span class="field-error" data-error-for="weightKg"></span>
+          </div>
+        </div>
+
+        <!-- Section: Contact Details -->
+        <div class="form-section-title">
+          <span class="section-icon">📞</span>
+          <h3>Contact Details</h3>
+        </div>
+
+        <div class="field-row">
+          <!-- Contact Number -->
+          <div class="field field-flex-1">
+            <label for="phone">Contact Number <span class="req">*</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" autocomplete="tel" required>
+            <span class="field-error" data-error-for="phone"></span>
+          </div>
+
+          <!-- Alternative Contact Number -->
+          <div class="field field-flex-1">
+            <label for="altPhone">Alternative Contact Number <span class="opt">(Optional)</span></label>
+            <input type="tel" id="altPhone" name="altPhone" placeholder="+91 91234 56789">
+            <span class="field-error" data-error-for="altPhone"></span>
+          </div>
+
+          <!-- Email (Optional) -->
+          <div class="field field-flex-1">
+            <label for="email">Email Address <span class="opt">(Optional)</span></label>
+            <input type="email" id="email" name="email" placeholder="donor@example.com" autocomplete="email">
+            <span class="field-error" data-error-for="email"></span>
+          </div>
+        </div>
+
+        <!-- Section: Location Inputs -->
+        <div class="form-section-title">
+          <span class="section-icon">📍</span>
+          <h3>Location Information</h3>
+        </div>
+
+        <div class="field-row">
+          <!-- Street Address -->
+          <div class="field field-flex-full">
+            <label for="address">Street Address / Landmark <span class="req">*</span></label>
+            <input type="text" id="address" name="address" placeholder="Flat / House No., Street, Area" required>
+            <span class="field-error" data-error-for="address"></span>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <!-- City -->
+          <div class="field field-flex-1">
+            <label for="city">City <span class="req">*</span></label>
+            <input type="text" id="city" name="city" placeholder="e.g. Bengaluru" required>
+            <span class="field-error" data-error-for="city"></span>
+          </div>
+
+          <!-- State -->
+          <div class="field field-flex-1">
+            <label for="state">State / Province <span class="req">*</span></label>
+            <input type="text" id="state" name="state" placeholder="e.g. Karnataka" required>
+            <span class="field-error" data-error-for="state"></span>
+          </div>
+
+          <!-- Pin Code -->
+          <div class="field field-flex-1">
+            <label for="pinCode">Pin / Postal Code <span class="req">*</span></label>
+            <input type="text" id="pinCode" name="pinCode" placeholder="e.g. 560001" required>
+            <span class="field-error" data-error-for="pinCode"></span>
+          </div>
+        </div>
+
+        <!-- Section: Medical Toggles & Availability -->
+        <div class="form-section-title">
+          <span class="section-icon">🩺</span>
+          <h3>Donation History &amp; Availability Status</h3>
+        </div>
+
+        <div class="field-row align-items-center">
+          <!-- Last Donation Date -->
+          <div class="field field-flex-1">
+            <label for="lastDonationDate">
+              Last Donation Date <span class="opt">(Optional)</span>
+            </label>
+            <input type="date" id="lastDonationDate" name="lastDonationDate">
+            <span class="field-hint">Must be at least 90 days ago to be eligible.</span>
+            <span class="field-error" data-error-for="lastDonationDate"></span>
+          </div>
+
+          <!-- Availability Switch Toggle -->
+          <div class="field field-flex-1 toggle-card">
+            <div class="toggle-card-content">
+              <div class="toggle-card-text">
+                <span class="toggle-card-label">Are you currently available to donate?</span>
+                <span class="toggle-card-sub">Enable this so patients and hospitals can contact you in emergencies.</span>
+              </div>
+              <label class="switch" for="available">
+                <input type="checkbox" id="available" name="available" checked>
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <span class="field-error" data-error-for="available"></span>
+          </div>
+        </div>
+
+        <!-- Form Actions & Server Status -->
+        <div class="form-actions-bar">
+          <div id="form-alert" class="form-alert hidden" role="alert" aria-live="polite"></div>
+          <div class="btn-group">
+            <button type="button" id="btn-cancel-edit" class="btn-outline hidden">Cancel</button>
+            <button type="submit" id="submit-btn" class="btn-primary">
+              <span class="btn-spinner hidden" id="submit-spinner"></span>
+              <span id="submit-btn-text">Save Donor Profile</span>
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- Donor Registry & Directory Panel -->
+    <section class="panel directory-panel" id="directory-section">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <span class="panel-step-tag panel-step-tag--green">Live Registry</span>
+          <h2>Search Verified Donors</h2>
+          <p>Find matching lifesavers nearby filtered by blood group, city, and availability.</p>
+        </div>
+        <button type="button" id="btn-refresh-list" class="btn-secondary btn-icon-only" title="Refresh list">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </button>
+      </div>
+
+      <!-- Search Controls -->
+      <div class="search-bar-card">
+        <div class="search-inputs">
+          <div class="search-field">
+            <label for="search-bloodGroup">Blood Group</label>
+            <select id="search-bloodGroup">
+              <option value="">All Blood Groups</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+          </div>
+
+          <div class="search-field">
+            <label for="search-city">City</label>
+            <input type="text" id="search-city" placeholder="e.g. Bengaluru">
+          </div>
+
+          <div class="search-field">
+            <label for="search-state">State</label>
+            <input type="text" id="search-state" placeholder="e.g. Karnataka">
+          </div>
+
+          <div class="search-toggle-field">
+            <label class="switch-small-label" for="search-availableOnly">
+              <input type="checkbox" id="search-availableOnly" checked>
+              <span>Available Only</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="search-actions">
+          <button type="button" id="search-btn" class="btn-primary search-action-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            Filter Donors
+          </button>
+          <button type="button" id="search-reset-btn" class="btn-outline">Reset</button>
+        </div>
+      </div>
+
+      <!-- Donors Cards Grid -->
+      <div id="donor-list" class="donor-grid" aria-live="polite">
+        <div class="loading-state">
+          <span class="spinner-dot"></span>
+          <p>Loading donor registry...</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- App Footer -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <strong>Pulse Community Blood Registry</strong>
+        <p>A voluntary lifeline network connecting donors with patients in urgent need.</p>
+      </div>
+      <div class="footer-right">
+        <span>Eligibility standard: &ge; 50kg weight &middot; 90 days interval</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

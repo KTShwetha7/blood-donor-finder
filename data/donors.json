@@ -1,0 +1,38 @@
+[
+  {
+    "id": "84ce1b05-5575-4527-86fa-eb43c325cafb",
+    "name": "Ajay",
+    "age": 21,
+    "gender": "male",
+    "bloodGroup": "O+",
+    "weightKg": 83,
+    "phone": "6363332901",
+    "email": "",
+    "city": "ballari",
+    "lastDonationDate": "2005-06-18",
+    "eligibleNow": true,
+    "available": true,
+    "createdAt": "2026-09-20T04:06:06.455Z"
+  },
+  {
+    "id": "445b05cc-1969-4250-8722-c06799802fdc",
+    "sessionId": "sess_xp3otjipemu9axz9z",
+    "name": "Isaq",
+    "phone": "9864745112",
+    "altPhone": "",
+    "bloodGroup": "A+",
+    "weightKg": 50,
+    "age": null,
+    "gender": "",
+    "email": "",
+    "address": "123MGROAD",
+    "city": "Ballari",
+    "state": "Karnataka",
+    "pinCode": "583101",
+    "lastDonationDate": "2005-08-15",
+    "available": true,
+    "eligibleNow": true,
+    "createdAt": "2026-09-20T04:29:43.655Z",
+    "updatedAt": "2026-09-20T04:30:50.944Z"
+  }
+]
