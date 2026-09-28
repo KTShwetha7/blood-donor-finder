@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Membership Registration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F3F1EA;
+    --panel: #FFFFFF;
+    --ink: #202536;
+    --ink-soft: #565f72;
+    --accent: #A9722F;
+    --accent-soft: #E7D9C3;
+    --line: #D9D3C3;
+    --error: #A63D3D;
+    --error-soft: #F4E0DE;
+    --success: #3E7857;
+    --success-soft: #DFEBE3;
+    --shadow: rgba(32, 37, 54, 0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #171A22;
+      --panel: #20242F;
+      --ink: #EDEAE1;
+      --ink-soft: #A7AEBD;
+      --accent: #CB9A54;
+      --accent-soft: #3A3122;
+      --line: #343A48;
+      --error: #E08787;
+      --error-soft: #3A2427;
+      --success: #7FC49D;
+      --success-soft: #1F332A;
+      --shadow: rgba(0, 0, 0, 0.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #171A22;
+    --panel: #20242F;
+    --ink: #EDEAE1;
+    --ink-soft: #A7AEBD;
+    --accent: #CB9A54;
+    --accent-soft: #3A3122;
+    --line: #343A48;
+    --error: #E08787;
+    --error-soft: #3A2427;
+    --success: #7FC49D;
+    --success-soft: #1F332A;
+    --shadow: rgba(0, 0, 0, 0.4);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+    padding: 40px 20px 80px;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; }
+
+  header.page-head { margin-bottom: 28px; }
+  header.page-head h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 38px);
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  header.page-head p {
+    margin: 0;
+    color: var(--ink-soft);
+    max-width: 60ch;
+    font-size: 15px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 720px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  /* Membership card preview */
+  .card-slot { position: sticky; top: 24px; }
+  .id-card {
+    background: linear-gradient(155deg, var(--panel) 60%, var(--accent-soft) 150%);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 10px 30px var(--shadow);
+    position: relative;
+    overflow: hidden;
+    min-height: 190px;
+  }
+  .id-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: var(--accent);
+  }
+  .id-card .label {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .id-card .name {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0 0 4px;
+    min-height: 28px;
+    word-break: break-word;
+  }
+  .id-card .username {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 14px;
+    min-height: 18px;
+  }
+  .id-card .meta {
+    margin-top: 18px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px dashed var(--line);
+    padding-top: 10px;
+  }
+  .stamp {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    border: 2px solid var(--success);
+    color: var(--success);
+    border-radius: 50%;
+    width: 62px;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-align: center;
+    line-height: 1.1;
+    transform: rotate(-14deg) scale(0);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(.34,1.56,.64,1), opacity 0.3s ease;
+  }
+  .stamp.show { transform: rotate(-14deg) scale(1); opacity: 1; }
+
+  /* Form panel */
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 6px 20px var(--shadow);
+  }
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .field input {
+    width: 100%;
+    padding: 11px 13px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    font-family: inherit;
+  }
+  .field input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .field .error-msg {
+    color: var(--error);
+    font-size: 12.5px;
+    margin-top: 5px;
+    min-height: 15px;
+  }
+  .field.invalid input { border-color: var(--error); }
+
+  .strength { margin-top: 8px; }
+  .strength-bar {
+    height: 5px;
+    border-radius: 3px;
+    background: var(--line);
+    overflow: hidden;
+  }
+  .strength-bar span {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: var(--error);
+    transition: width 0.25s ease, background 0.25s ease;
+  }
+  .strength-label {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  .check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+  .check-row input { margin-top: 3px; }
+
+  button.primary {
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  button.primary:hover { filter: brightness(1.05); }
+  button.primary:active { transform: translateY(1px); }
+
+  .banner {
+    display: none;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .banner.success { background: var(--success-soft); color: var(--success); display: block; }
+  .banner.error { background: var(--error-soft); color: var(--error); display: block; }
+
+  /* Log / test panel */
+  details.log {
+    margin-top: 26px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 6px 22px 20px;
+  }
+  details.log > summary {
+    cursor: pointer;
+    padding: 16px 0;
+    font-weight: 600;
+    font-size: 15px;
+    list-style: none;
+  }
+  details.log > summary::-webkit-details-marker { display: none; }
+  details.log > summary::after {
+    content: "＋";
+    float: right;
+    color: var(--ink-soft);
+  }
+  details.log[open] > summary::after { content: "－"; }
+
+  .sub-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .sub-tabs button {
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .sub-tabs button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--ink-soft); font-weight: 600; font-size: 12px; }
+  .empty-note { color: var(--ink-soft); font-size: 13.5px; padding: 10px 0; }
+
+  .test-row { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+  .test-row:last-child { border-bottom: none; }
+  .pass { color: var(--success); font-weight: 600; }
+  .fail { color: var(--error); font-weight: 600; }
+  .test-summary { font-size: 13.5px; color: var(--ink-soft); margin-bottom: 10px; }
+  .small-btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    margin-right: 8px;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="page-head">
+      <h1>Blood Donation Registration</h1>
+      <p>Register a donor profile and complete your medical eligibility details before submission.</p>
+    </header>
+
+    <div class="layout">
+      <div class="card-slot">
+        <div class="id-card">
+          <div class="label">DONOR PROFILE</div>
+          <p class="name" id="previewName">Your name</p>
+          <div class="username" id="previewBloodGroup">Blood group</div>
+          <div class="meta">
+            <span id="previewEmail">email pending</span>
+            <span id="previewDate"></span>
+          </div>
+          <div class="stamp" id="stamp">VERIFIED<br>DONOR</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="banner" id="banner"></div>
+
+        <form id="regForm" novalidate>
+          <div class="field" id="field-fullName">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" autocomplete="name" placeholder="Jordan Blake">
+            <div class="error-msg" id="err-fullName"></div>
+          </div>
+
+          <div class="field" id="field-email">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" autocomplete="email" placeholder="jordan@example.com">
+            <div class="error-msg" id="err-email"></div>
+          </div>
+
+          <div class="field" id="field-contactNumber">
+            <label for="contactNumber">Contact Number</label>
+            <input type="tel" id="contactNumber" autocomplete="tel" placeholder="0712345678">
+            <div class="error-msg" id="err-contactNumber"></div>
+          </div>
+
+          <div class="field" id="field-bloodGroup">
+            <label for="bloodGroup">Blood Group</label>
+            <select id="bloodGroup">
+              <option value="">Select blood group</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+            <div class="error-msg" id="err-bloodGroup"></div>
+          </div>
+
+          <div class="field" id="field-city">
+            <label for="city">Location / City</label>
+            <select id="city">
+              <option value="">Select city</option>
+              <option value="Colombo">Colombo</option>
+              <option value="Kandy">Kandy</option>
+              <option value="Galle">Galle</option>
+              <option value="Negombo">Negombo</option>
+              <option value="Kurunegala">Kurunegala</option>
+              <option value="Jaffna">Jaffna</option>
+            </select>
+            <div class="error-msg" id="err-city"></div>
+          </div>
+
+          <div class="field" id="field-weightKg">
+            <label for="weightKg">Weight (kg)</label>
+            <input type="number" id="weightKg" min="30" max="250" step="0.1" placeholder="65">
+            <div class="error-msg" id="err-weightKg"></div>
+          </div>
+
+          <div class="field" id="field-lastDonationDate">
+            <label for="lastDonationDate">Last Donation Date</label>
+            <input type="date" id="lastDonationDate">
+            <div class="error-msg" id="err-lastDonationDate"></div>
+          </div>
+
+          <div class="field" id="field-weightConfirmed">
+            <label class="check-row">
+              <input type="checkbox" id="weightConfirmed">
+              <span>I confirm I weigh 50kg or more and am medically eligible to donate.</span>
+            </label>
+            <div class="error-msg" id="err-weightConfirmed"></div>
+          </div>
+
+          <div class="field" id="field-password">
+            <label for="password">Password</label>
+            <input type="password" id="password" autocomplete="new-password" placeholder="At least 8 characters">
+            <div class="strength">
+              <div class="strength-bar"><span id="strengthFill"></span></div>
+              <div class="strength-label" id="strengthLabel">&nbsp;</div>
+            </div>
+            <div class="error-msg" id="err-password"></div>
+          </div>
+
+          <div class="field" id="field-confirmPassword">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" autocomplete="new-password" placeholder="Re-enter your password">
+            <div class="error-msg" id="err-confirmPassword"></div>
+          </div>
+
+          <button type="submit" class="primary">Register</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const API_ENDPOINT = "http://localhost:3000/api/register";
+
+      const previewName = document.getElementById("previewName");
+      const previewBloodGroup = document.getElementById("previewBloodGroup");
+      const previewEmail = document.getElementById("previewEmail");
+      const previewDate = document.getElementById("previewDate");
+      const stamp = document.getElementById("stamp");
+
+      const form = document.getElementById("regForm");
+      const fullNameInput = document.getElementById("fullName");
+      const emailInput = document.getElementById("email");
+      const contactNumberInput = document.getElementById("contactNumber");
+      const bloodGroupInput = document.getElementById("bloodGroup");
+      const cityInput = document.getElementById("city");
+      const weightInput = document.getElementById("weightKg");
+      const lastDonationInput = document.getElementById("lastDonationDate");
+      const weightConfirmedInput = document.getElementById("weightConfirmed");
+      const passwordInput = document.getElementById("password");
+      const confirmPasswordInput = document.getElementById("confirmPassword");
+
+      const strengthFill = document.getElementById("strengthFill");
+      const strengthLabel = document.getElementById("strengthLabel");
+      const strengthColors = ["#A63D3D", "#A63D3D", "#C08A2E", "#3E7857", "#3E7857"];
+      const strengthLabels = ["Too short", "Weak", "Fair", "Good", "Strong"];
+
+      function setError(field, message) {
+        const errorEl = document.getElementById("err-" + field);
+        const fieldEl = document.getElementById("field-" + field);
+        if (errorEl) errorEl.textContent = message;
+        if (fieldEl) fieldEl.classList.toggle("invalid", !!message);
+      }
+
+      function showBanner(message, type) {
+        const b = document.getElementById("banner");
+        b.textContent = message;
+        b.className = "banner " + type;
+      }
+
+      function hideBanner() {
+        const b = document.getElementById("banner");
+        b.className = "banner";
+        b.textContent = "";
+      }
+
+      function validateFullName(value) {
+        if (!value || !value.trim()) return "Full name is required.";
+        if (value.trim().length < 2) return "Name must be at least 2 characters.";
+        return "";
+      }
+
+      function validateEmail(value) {
+        if (!value || !value.trim()) return "Email address is required.";
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!re.test(value.trim())) return "Enter a valid email address.";
+        return "";
+      }
+
+      function validateContactNumber(value) {
+        if (!value || !value.trim()) return "Contact number is required.";
+        const cleaned = value.replace(/\s+/g, "");
+        if (!/^\d{10,15}$/.test(cleaned)) return "Contact number must contain 10 to 15 digits.";
+        return "";
+      }
+
+      function validateBloodGroup(value) {
+        if (!value) return "Please select a blood group.";
+        return "";
+      }
+
+      function validateCity(value) {
+        if (!value) return "Please select a city.";
+        return "";
+      }
+
+      function validateWeight(value) {
+        if (!value || Number(value) < 50) return "Weight must be at least 50 kg.";
+        return "";
+      }
+
+      function validateDonationDate(value) {
+        if (!value) return "Please enter the last donation date.";
+        return "";
+      }
+
+      function validateWeightConfirmed(checked) {
+        if (!checked) return "You must confirm your weight and eligibility.";
+        return "";
+      }
+
+      function passwordScore(pw) {
+        let score = 0;
+        if (!pw) return 0;
+        if (pw.length >= 8) score++;
+        if (/[A-Z]/.test(pw)) score++;
+        if (/[0-9]/.test(pw) || /[^A-Za-z0-9]/.test(pw)) score++;
+        if (/[0-9]/.test(pw) && /[^A-Za-z0-9]/.test(pw)) score++;
+        return score;
+      }
+
+      function validatePassword(value) {
+        if (!value) return "Password is required.";
+        if (value.length < 8) return "Password must be at least 8 characters.";
+        if (!/[A-Z]/.test(value)) return "Password must include at least one uppercase letter.";
+        if (!/[0-9]/.test(value) && !/[^A-Za-z0-9]/.test(value)) return "Password must include a number or symbol.";
+        return "";
+      }
+
+      function validateConfirmPassword(password, confirm) {
+        if (!confirm) return "Please confirm your password.";
+        if (password !== confirm) return "Passwords do not match.";
+        return "";
+      }
+
+      fullNameInput.addEventListener("input", () => {
+        previewName.textContent = fullNameInput.value.trim() || "Your name";
+      });
+
+      bloodGroupInput.addEventListener("change", () => {
+        previewBloodGroup.textContent = bloodGroupInput.value || "Blood group";
+      });
+
+      emailInput.addEventListener("input", () => {
+        previewEmail.textContent = emailInput.value.trim() || "email pending";
+      });
+
+      passwordInput.addEventListener("input", () => {
+        const s = passwordScore(passwordInput.value);
+        const pct = passwordInput.value ? (s / 4) * 100 : 0;
+        strengthFill.style.width = pct + "%";
+        strengthFill.style.background = strengthColors[s] || strengthColors[0];
+        strengthLabel.textContent = passwordInput.value ? strengthLabels[s] || "Strong" : "";
+      });
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        hideBanner();
+        stamp.classList.remove("show");
+
+        const payload = {
+          fullName: fullNameInput.value,
+          email: emailInput.value,
+          contactNumber: contactNumberInput.value,
+          bloodGroup: bloodGroupInput.value,
+          city: cityInput.value,
+          weightKg: weightInput.value,
+          lastDonationDate: lastDonationInput.value,
+          weightConfirmed: weightConfirmedInput.checked,
+          password: passwordInput.value,
+          confirmPassword: confirmPasswordInput.value
+        };
+
+        const errors = {
+          fullName: validateFullName(payload.fullName),
+          email: validateEmail(payload.email),
+          contactNumber: validateContactNumber(payload.contactNumber),
+          bloodGroup: validateBloodGroup(payload.bloodGroup),
+          city: validateCity(payload.city),
+          weightKg: validateWeight(payload.weightKg),
+          lastDonationDate: validateDonationDate(payload.lastDonationDate),
+          weightConfirmed: validateWeightConfirmed(payload.weightConfirmed),
+          password: validatePassword(payload.password),
+          confirmPassword: validateConfirmPassword(payload.password, payload.confirmPassword)
+        };
+
+        Object.keys(errors).forEach((key) => setError(key, errors[key] || ""));
+
+        if (Object.values(errors).some(Boolean)) {
+          showBanner("Please fix the highlighted fields before registering.", "error");
+          return;
+        }
+
+        try {
+          const response = await fetch(API_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              fullName: payload.fullName.trim(),
+              email: payload.email.trim(),
+              contactNumber: payload.contactNumber.trim(),
+              bloodGroup: payload.bloodGroup,
+              city: payload.city,
+              weightKg: Number(payload.weightKg),
+              lastDonationDate: payload.lastDonationDate,
+              weightConfirmed: true,
+              password: payload.password
+            })
+          });
+
+          const result = await response.json();
+
+          if (!response.ok) {
+            const message = result.errors ? Object.values(result.errors)[0] : result.message || "Registration failed.";
+            showBanner(message, "error");
+            return;
+          }
+
+          previewDate.textContent = new Date().toLocaleDateString();
+          stamp.classList.add("show");
+          showBanner("Registration successful. Redirecting to login...", "success");
+
+          setTimeout(() => {
+            window.location.href = "/login.html";
+          }, 1200);
+        } catch (error) {
+          console.error("Registration error:", error);
+          showBanner("Backend connection failed. Please start the server and try again.", "error");
+        }
+      });
+
+      previewName.textContent = "Your name";
+      previewEmail.textContent = "email pending";
+      previewBloodGroup.textContent = "Blood group";
+      previewDate.textContent = new Date().toLocaleDateString();
+    })();
+  </script>
+</body>
+</html>
+</html>
