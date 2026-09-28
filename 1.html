@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Logout</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+        }
+
+        /* Navbar */
+        .navbar {
+            height: 65px;
+            background-color: #222;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+        }
+
+        .navbar h2 {
+            font-size: 22px;
+        }
+
+        /* Logout Button */
+        #logoutBtn {
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: white;
+
+            border: none;
+            border-radius: 5px;
+
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        #logoutBtn:hover {
+            background-color: #c0392b;
+        }
+
+        /* Main Container */
+        .container {
+            width: 80%;
+            max-width: 600px;
+
+            margin: 80px auto;
+            padding: 50px;
+
+            text-align: center;
+
+            background-color: white;
+            border-radius: 10px;
+
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h1 {
+            margin-bottom: 15px;
+        }
+
+        .container p {
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        /* Login Button */
+        #loginBtn {
+            padding: 10px 25px;
+
+            background-color: #3498db;
+            color: white;
+
+            border: none;
+            border-radius: 5px;
+
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        #loginBtn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Logout Message */
+        #logoutMessage {
+            display: none;
+            color: green;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <h2>My Application</h2>
+
+        <button id="logoutBtn">
+            Logout
+        </button>
+    </div>
+
+
+    <!-- Dashboard -->
+    <div class="container" id="dashboard">
+
+        <h1>Welcome to Dashboard</h1>
+
+        <p>
+            You are successfully logged in.
+        </p>
+
+        <p id="logoutMessage">
+            You have been logged out successfully.
+        </p>
+
+    </div>
+
+
+    <script>
+
+        // Logout Functionality
+        document.getElementById("logoutBtn")
+            .addEventListener("click", function () {
+
+                // Remove login information
+                localStorage.removeItem("isLoggedIn");
+
+                // Show logout message
+                document.getElementById("logoutMessage")
+                    .style.display = "block";
+
+                // Hide dashboard
+                document.getElementById("dashboard")
+                    .style.display = "none";
+
+                // Change page after logout
+                setTimeout(function () {
+                    showLoginPage();
+                }, 1000);
+
+            });
+
+
+        // Redirect / Login Page
+        function showLoginPage() {
+
+            document.body.innerHTML = `
+
+                <div class="container">
+
+                    <h1>Login Page</h1>
+
+                    <p>
+                        You have been logged out successfully.
+                    </p>
+
+                    <button id="loginBtn">
+                        Login
+                    </button>
+
+                </div>
+
+            `;
+
+            // Login again
+            document.getElementById("loginBtn")
+                .addEventListener("click", function () {
+
+                    localStorage.setItem(
+                        "isLoggedIn",
+                        "true"
+                    );
+
+                    location.reload();
+
+                });
+        }
+
+
+        // Check Login Status
+        window.onload = function () {
+
+            const isLoggedIn =
+                localStorage.getItem("isLoggedIn");
+
+            // If user has not logged in,
+            // automatically show login page
+            if (isLoggedIn !== "true") {
+                showLoginPage();
+            }
+        };
+
+    </script>
+
+</body>
+</html>
