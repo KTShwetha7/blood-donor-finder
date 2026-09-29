@@ -91,6 +91,18 @@ select {
   transform: rotate(180deg);
 }
 
+.login-link {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid #d62b3f;
+  border-radius: 5px;
+  background: #fff;
+  color: #c91f38;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 .content {
   position: relative;
   z-index: 2;

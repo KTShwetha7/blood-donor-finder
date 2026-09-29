@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+import LoginApp from "./LoginApp.jsx";
 import "./styles.css";
 
 const initialForm = {
@@ -57,9 +58,25 @@ function validateField(name, value) {
 }
 
 function App() {
+  const [route, setRoute] = useState(
+    () => window.location.hash.slice(1) || "/registration"
+  );
   const [form, setForm] = useState(initialForm);
   const [touched, setTouched] = useState({});
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setRoute(window.location.hash.slice(1) || "/registration");
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  if (route === "/login" || route === "/dashboard") {
+    return <LoginApp />;
+  }
 
   const errors = Object.fromEntries(
     Object.entries(form).map(([name, value]) => [
@@ -156,6 +173,16 @@ function App() {
 
           <span className="drop">♥</span>
         </div>
+
+        <button
+          type="button"
+          className="login-link"
+          onClick={() => {
+            window.location.hash = "/login";
+          }}
+        >
+          Login
+        </button>
       </header>
 
       {/* Decorative Elements */}

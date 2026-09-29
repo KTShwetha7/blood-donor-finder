@@ -1,0 +1,137 @@
+.login-page,
+.dashboard-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #fff7f7 0%, #f4f9ff 100%);
+  padding: 24px;
+}
+
+.login-card,
+.dashboard-card {
+  width: min(100%, 480px);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(210, 27, 27, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 18px 58px rgba(123, 42, 42, 0.12);
+  padding: 32px 28px;
+}
+
+.dashboard-card { width: min(100%, 760px); }
+
+.registration-link {
+  display: block;
+  margin-bottom: 22px;
+  color: #d12b2b;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: left;
+  text-decoration: none;
+}
+
+.brand-block { text-align: center; margin-bottom: 24px; }
+
+.brand-icon {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d92d2d, #ed6a5a);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 auto 14px;
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+  font-weight: 700;
+  color: #d12b2b;
+}
+
+.brand-block h1,
+.dashboard-header h2 { margin: 8px 0 6px; font-size: 2.5rem; color: #1f2937; }
+.intro-text { margin: 0; color: #6b7280; font-size: 0.98rem; }
+.login-form { display: flex; flex-direction: column; gap: 18px; }
+.field-group { display: flex; flex-direction: column; gap: 8px; }
+.field-group label { font-size: 0.9rem; font-weight: 600; color: #374151; }
+
+.field-group input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 52px;
+  border: 1px solid #d9dfe8;
+  background: #fff;
+  border-radius: 12px;
+  padding: 0 16px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-group input:focus { outline: none; border-color: #d12b2b; box-shadow: 0 0 0 4px rgba(209, 43, 43, 0.08); }
+.password-wrap { position: relative; }
+.password-wrap input { padding-right: 84px; }
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  border: none;
+  background: #fff3f3;
+  color: #d12b2b;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.meta-row { display: flex; justify-content: flex-end; }
+.text-link { color: #d12b2b; text-decoration: none; font-weight: 600; }
+.text-link.accent { color: #cf2d2d; }
+.error-text, .form-alert { color: #b42318; font-size: 0.82rem; font-weight: 600; }
+
+.form-alert {
+  margin-top: -10px;
+  background: #fff2f2;
+  border: 1px solid #f5c2c2;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.login-button,
+.logout-button {
+  height: 52px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #d92d2d, #ef4e43);
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-button:hover,
+.logout-button:hover { transform: translateY(-1px); box-shadow: 0 12px 20px rgba(217, 45, 45, 0.2); }
+.login-button:disabled { opacity: 0.75; cursor: wait; }
+.signup-prompt { text-align: center; margin: 0; color: #6b7280; }
+.dashboard-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.logout-button { width: 120px; height: 42px; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin: 22px 0; }
+.stat-box { background: #fff6f5; border: 1px solid #f4d3d3; border-radius: 16px; padding: 18px 16px; }
+.stat-box span { display: block; color: #6b7280; margin-bottom: 10px; }
+.stat-box strong { font-size: 1.8rem; color: #111827; }
+.session-panel { background: #f5f8ff; border-radius: 16px; padding: 16px; border: 1px solid #dfe8f9; }
+.session-panel p { margin: 0 0 10px; color: #1f2937; font-weight: 600; }
+.session-panel code { display: block; overflow-wrap: anywhere; color: #475569; background: rgba(255, 255, 255, 0.6); padding: 10px 12px; border-radius: 8px; }
+
+@media (max-width: 540px) {
+  .login-card, .dashboard-card { padding: 24px 18px; border-radius: 18px; }
+  .dashboard-header { flex-direction: column; align-items: flex-start; }
+  .logout-button { width: 100%; }
+}
