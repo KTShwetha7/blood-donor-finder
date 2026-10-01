@@ -40,6 +40,9 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
 });
 
 app.use(express.json({ limit: '1mb' }));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'user-registration.html'));
+});
 app.use(express.static(__dirname));
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
