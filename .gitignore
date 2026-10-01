@@ -13,6 +13,10 @@ env/
 # Environment variables
 .env
 
+# Local app data
+/data/
+*.db
+
 # Django
 db.sqlite3
 media/
